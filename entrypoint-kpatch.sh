@@ -61,11 +61,8 @@ host bash -c "
   chcon -t modules_object_t /var/lib/kpatch/${TARGET_KVER}/${KPATCH_KO}
 "
 
-# rpm-ostree live-apply puts the .ko on a read-only overlay with SELinux
-# label lib_t. The kernel requires modules_object_t for module_load.
-# Load from the copy we just placed in /var/lib/kpatch.
 echo "Loading livepatch module..."
-host insmod /var/lib/kpatch/${TARGET_KVER}/${KPATCH_KO}
+host /usr/sbin/kpatch load ${KPATCH_KO}
 
 # Verify
 echo "=== Livepatch status ==="
